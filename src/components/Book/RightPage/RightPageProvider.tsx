@@ -7,7 +7,7 @@ export const RightPageContext = createContext<RightPageContextProps>(null!)
 export const useRightPageContext = () => {
   const props = useContext(RightPageContext)
   if (!props) {
-    throw new Error('No left page context found')
+    throw new Error('No right page context found')
   }
 
   return props

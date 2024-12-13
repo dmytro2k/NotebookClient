@@ -4,11 +4,11 @@ import styles from './styles.module.scss'
 
 type LeftPageBackProps = ComponentPropsWithoutRef<'div'>
 
-const LeftPageBack: FC<LeftPageBackProps> = ({ className, children, ...rest }) => {
+const LeftPageBack: FC<LeftPageBackProps> = ({ className = '', children, ...rest }) => {
   return (
     <div
       {...rest}
-      className={`${className} ${styles.back}`}
+      className={`${styles.back} ${className}`}
     >
       {children}
     </div>

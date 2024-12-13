@@ -8,7 +8,7 @@ const RightPageContainer: FC<RightPageContainerProps> = ({ className, children, 
   return (
     <div
       {...rest}
-      className={`${className} ${styles.container}`}
+      className={`${styles.container} ${className}`}
     >
       <div className={styles.heading}>About</div>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio aspernatur nihil a nobis ea voluptatem unde blanditiis

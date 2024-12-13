@@ -3,16 +3,18 @@ import styles from './styles.module.scss'
 import { LeftPageContext } from './LeftPageProvider'
 import LeftPageFront from './LeftPageFront'
 import LeftPageBack from './LeftPageBack'
+import { useBookContext } from '../BookProvider'
 
-type LeftPageComponentProps = ComponentPropsWithoutRef<'div'> & { onBookClick: () => void; isBookOpen: boolean }
+type LeftPageComponentProps = ComponentPropsWithoutRef<'div'>
 
-const LeftPageComponent: FC<LeftPageComponentProps> = ({ className, onBookClick, isBookOpen, children, ...rest }) => {
+const LeftPageComponent: FC<LeftPageComponentProps> = ({ className = '', children, ...rest }) => {
+  const { isBookOpen, onBookClick } = useBookContext()
   return (
     <LeftPageContext.Provider value={{ onBookClick, isBookOpen }}>
       <div
         onClick={onBookClick}
         {...rest}
-        className={`${className} ${styles.left_page} ${isBookOpen ? styles.open : ''}`}
+        className={`${styles.left_page} ${isBookOpen ? styles.open : ''} ${className}`}
       >
         {children}
       </div>
