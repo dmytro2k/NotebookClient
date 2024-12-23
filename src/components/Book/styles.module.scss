@@ -11,7 +11,7 @@
     position: relative;
     perspective: 1500px;
     perspective-origin: left;
-    transition: 0.45s;
+    transition: 0.7s ease;
 
     &.open {
       transform: translateX(50%);

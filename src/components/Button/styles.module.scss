@@ -1,0 +1,15 @@
+.custom_button {
+  font-family: 'IM Fell English', serif;
+  font-style: normal;
+  font-size: large;
+  border: 2px solid white;
+  border-radius: 6px;
+  background-color: #cee7f6;
+  padding: 8px 24px;
+  cursor: pointer;
+  transition: opacity 0.6s ease;
+
+  &.transparent {
+    opacity: 0.5;
+  }
+}

@@ -10,7 +10,7 @@ const LeftPageFront: FC<LeftPageFrontProps> = ({ className = '', children, ...re
       {...rest}
       className={`${styles.front} ${className}`}
     >
-      <div className={styles.bind}></div>
+      <div className={`${styles.bind} `}></div>
       {children}
     </div>
   )

@@ -1,14 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Round|Material+Icons+Sharp|Material+Icons+Two+Tone');
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Poppins&display=swap');
 
 :root {
-  // line-height: 1.5;
-  // font-weight: 400;
-
-  // color-scheme: light dark;
-  // color: rgba(255, 255, 255, 0.87);
-  // background-color: #242424;
-
+  font-family: 'IM Fell English', serif;
+  font-style: normal;
   // font-synthesis: none;
   // text-rendering: optimizeLegibility;
   // -webkit-font-smoothing: antialiased;
@@ -30,10 +26,3 @@
     }
   }
 }
-
-// @media (prefers-color-scheme: light) {
-//   :root {
-//     color: #213547;
-//     background-color: #ffffff;
-//   }
-// }

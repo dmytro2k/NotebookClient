@@ -1,25 +1,3 @@
-.book {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  .accordion {
-    width: fit-content;
-    height: fit-content;
-    position: relative;
-    perspective: 1500px;
-    perspective-origin: left;
-    transition: 0.45s;
-
-    &.open {
-      transform: translateX(50%);
-    }
-
-    .page {
-      width: 561px;
-      height: 727px;
-    }
-  }
+.centerd {
+  text-align: center;
 }
