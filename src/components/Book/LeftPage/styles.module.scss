@@ -9,7 +9,7 @@
   transform-origin: right;
   border-radius: 5mm 0 0 5mm;
   transform-style: preserve-3d;
-  transition: 0.45s;
+  transition: 0.45s ease;
 
   &.open {
     box-shadow: rgba(0, 0, 0, 0.3) 0px 20px 40px, rgba(0, 0, 0, 0.2) 0px 15px 10px;

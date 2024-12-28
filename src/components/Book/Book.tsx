@@ -3,7 +3,7 @@ import styles from './styles.module.scss'
 import { BookContext } from './BookProvider'
 import LeftPage from './LeftPage/LeftPage'
 import RightPage from './RightPage/RightPage'
-import Auth from './Auth/Auth'
+import AuthForm from './Auth/Auth'
 
 type BookComponentProps = ComponentPropsWithoutRef<'div'>
 
@@ -29,7 +29,7 @@ const BookComponent: FC<BookComponentProps> = ({ className = '', children, ...re
 const Book = Object.assign(BookComponent, {
   LeftPage,
   RightPage,
-  Auth,
+  AuthForm,
 })
 
 export default Book

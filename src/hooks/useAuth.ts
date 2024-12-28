@@ -16,7 +16,13 @@ type ResponseData = User & {
   token: string
 }
 
-export const useAuth = () => {
+export const useAuth = (): [
+  login: ({ userName, userPassword }: AuthData) => void,
+  logout: () => void,
+  user: User | undefined,
+  token: String | undefined,
+  isAuthorized: () => boolean
+] => {
   const [user, setUser, removeUser] = useSessionStorage<User>('user', { userId: '', userName: '' })
   const [token, setToken, removeToken] = useSessionStorage<String>('token', '')
 
@@ -26,6 +32,7 @@ export const useAuth = () => {
       setUser({ userId: data.userId, userName: data.userName })
       setToken(data.token)
     },
+    throwOnError: false,
   })
 
   const logout = () => {
@@ -45,13 +52,7 @@ export const useAuth = () => {
     return true
   }
 
-  return [login, logout, user, token, isAuthorized] as [
-    login: ({ userName, userPassword }: AuthData) => void,
-    logout: () => void,
-    user: User | undefined,
-    token: String | undefined,
-    isAuthorized: () => boolean
-  ]
+  return [login, logout, user, token, isAuthorized]
 }
 
 const authRequest = async ({ userName, userPassword }: AuthData) => {
