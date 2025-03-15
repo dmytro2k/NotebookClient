@@ -1,10 +1,9 @@
 import { ComponentPropsWithoutRef, FC } from 'react';
-
 import styles from './styles.module.scss';
 
-type PageContainerProps = ComponentPropsWithoutRef<'div'>;
+type ContainerProps = ComponentPropsWithoutRef<'div'>;
 
-const PageContainer: FC<PageContainerProps> = ({ className = '', children, ...rest }) => {
+const Container: FC<ContainerProps> = ({ className = '', children, ...rest }) => {
   return (
     <div {...rest} className={`${styles.container} ${className}`}>
       {children}
@@ -12,4 +11,4 @@ const PageContainer: FC<PageContainerProps> = ({ className = '', children, ...re
   );
 };
 
-export default PageContainer;
+export default Container;
