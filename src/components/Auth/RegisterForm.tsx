@@ -1,15 +1,16 @@
 import { ComponentPropsWithoutRef, FC } from 'react';
-
 import styles from './styles.module.scss';
-import Label from '../../components/Label/Label';
-import Input from '../../components/Input/Input';
+import Label from '../Label/Label';
+import Input from '../Input/Input';
 import { useForm } from '@tanstack/react-form';
-import Button from '../../components/Button/Button';
-import { useAuth } from '../../hooks/useAuth';
+import Button from '../Button/Button';
+import { useAuthContext } from '../../contexts/AuthProvider';
 
-type FormProps = ComponentPropsWithoutRef<'div'>;
-const Form: FC<FormProps> = ({ className = '', children, ...rest }) => {
-  const { register } = useAuth();
+type RegisterFormProps = ComponentPropsWithoutRef<'div'>;
+
+const RegisterForm: FC<RegisterFormProps> = ({ className = '', children, ...rest }) => {
+  const { register } = useAuthContext();
+
   const form = useForm({
     defaultValues: {
       username: '',
@@ -17,8 +18,9 @@ const Form: FC<FormProps> = ({ className = '', children, ...rest }) => {
       confirmPassword: '',
     },
     onSubmit: (values) => {
-      register({ userName: form.state.values.username, userPassword: form.state.values.password });
       console.log(values.value);
+      register({ userName: form.state.values.username, userPassword: form.state.values.password });
+      form.reset();
     },
   });
 
@@ -58,23 +60,6 @@ const Form: FC<FormProps> = ({ className = '', children, ...rest }) => {
         />
         <form.Field
           name="password"
-          validators={{
-            onChangeAsyncDebounceMs: 700,
-            onChangeAsync: ({ value }) => {
-              if (value.length < 8) {
-                return 'Password must be at least 8 characters long';
-              }
-              if (!/[A-Z]/.test(value)) {
-                return 'Password must contain at least one uppercase letter';
-              }
-              if (!/[a-z]/.test(value)) {
-                return 'Password must contain at least one lowercase letter';
-              }
-              if (!/[0-9]/.test(value)) {
-                return 'Password must contain at least one number';
-              }
-            },
-          }}
           children={(field) => (
             <div className={`${styles.field}`}>
               <Label htmlFor="password">Password</Label>
@@ -92,10 +77,23 @@ const Form: FC<FormProps> = ({ className = '', children, ...rest }) => {
         <form.Field
           name="confirmPassword"
           validators={{
+            onChangeListenTo: ['password'],
             onChangeAsyncDebounceMs: 700,
-            onChangeAsync: ({ value }) => {
-              if (value !== form.state.values.password) {
-                return 'Passwords must match';
+            onChangeAsync: ({ value, fieldApi }) => {
+              if (value.length < 8) {
+                return 'Password must be at least 8 characters long';
+              }
+              if (!/[A-Z]/.test(value)) {
+                return 'Password must contain at least one uppercase letter';
+              }
+              if (!/[a-z]/.test(value)) {
+                return 'Password must contain at least one lowercase letter';
+              }
+              if (!/[0-9]/.test(value)) {
+                return 'Password must contain at least one number';
+              }
+              if (value !== fieldApi.form.getFieldValue('password')) {
+                return 'Passwords do not match';
               }
             },
           }}
@@ -120,4 +118,4 @@ const Form: FC<FormProps> = ({ className = '', children, ...rest }) => {
   );
 };
 
-export default Form;
+export default RegisterForm;

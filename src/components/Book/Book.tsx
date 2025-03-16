@@ -1,6 +1,6 @@
 import { ComponentPropsWithoutRef, FC, useState } from 'react';
 import styles from './styles.module.scss';
-import { BookContext } from './BookProvider';
+import { BookContext } from '../../contexts/BookProvider';
 import LeftPage from './LeftPage/LeftPage';
 import RightPage from './RightPage/RightPage';
 
@@ -14,7 +14,7 @@ const BookComponent: FC<BookComponentProps> = ({ className = '', children, ...re
   };
 
   return (
-    <BookContext.Provider value={{ isBookOpen, setIsBookOpen, onBookClick }}>
+    <BookContext.Provider value={{ isBookOpen, onBookClick }}>
       <div {...rest} className={`${styles.book} ${className}`}>
         <div className={`${styles.accordion} ${isBookOpen ? styles.open : ''} `}>{children}</div>
       </div>

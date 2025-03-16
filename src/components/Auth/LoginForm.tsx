@@ -1,24 +1,25 @@
 import { ComponentPropsWithoutRef, FC } from 'react';
-
 import styles from './styles.module.scss';
-import Label from '../../components/Label/Label';
-import Input from '../../components/Input/Input';
+import Label from '../Label/Label';
+import Input from '../Input/Input';
 import { useForm } from '@tanstack/react-form';
-import Button from '../../components/Button/Button';
-import { useAuth } from '../../hooks/useAuth';
+import Button from '../Button/Button';
+import { useAuthContext } from '../../contexts/AuthProvider';
 
-type FormProps = ComponentPropsWithoutRef<'div'>;
+type LoginFormProps = ComponentPropsWithoutRef<'div'>;
 
-const Form: FC<FormProps> = ({ className = '', children, ...rest }) => {
-  const { login } = useAuth();
+const LoginForm: FC<LoginFormProps> = ({ className = '', children, ...rest }) => {
+  const { login } = useAuthContext();
+
   const form = useForm({
     defaultValues: {
       username: '',
       password: '',
     },
     onSubmit: (values) => {
-      login({ userName: form.state.values.username, userPassword: form.state.values.password });
       console.log(values.value);
+      login({ userName: form.state.values.username, userPassword: form.state.values.password });
+      form.reset();
     },
   });
 
@@ -90,10 +91,17 @@ const Form: FC<FormProps> = ({ className = '', children, ...rest }) => {
           )}
         />
       </form>
-      <Button onClick={form.handleSubmit}>Login</Button>
+      <form.Subscribe
+        selector={(state) => [state.canSubmit, state.isSubmitting]}
+        children={([canSubmit, isSubmitting]) => (
+          <Button type="submit" onClick={form.handleSubmit} disabled={!canSubmit}>
+            {isSubmitting ? '...' : 'Login'}
+          </Button>
+        )}
+      />
       {children}
     </div>
   );
 };
 
-export default Form;
+export default LoginForm;

@@ -1,6 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
-import { axiosRequest } from '../api/axios';
+import axiosInstance, { axiosRequest } from '../api/axios';
 import { useSessionStorage } from './useStorage';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 
 type User = {
   userId: string;
@@ -16,16 +18,35 @@ type ResponseData = User & {
   token: string;
 };
 
-export const useAuth = (): {
+type UseAuthReturnType = {
   login: ({ userName, userPassword }: AuthData) => void;
   register: ({ userName, userPassword }: AuthData) => void;
   logout: () => void;
   user: User | undefined;
   token: String | undefined;
-  isAuthorized: () => boolean;
-} => {
+  isAuthorized: boolean;
+};
+
+export const useAuth = (): UseAuthReturnType => {
   const [user, setUser, removeUser] = useSessionStorage<User>('user', { userId: '', userName: '' });
   const [token, setToken, removeToken] = useSessionStorage<String>('token', '');
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (token) {
+      axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (!user || !token || user.userId === '' || user.userName === '' || token === '') {
+      return setIsAuthorized(false);
+    }
+
+    navigate('/');
+    return setIsAuthorized(true);
+  }, [user, token]);
 
   const { mutate: mutateLogin } = useMutation({
     mutationFn: ({ userName, userPassword }: AuthData) => loginRequest({ userName, userPassword }),
@@ -48,6 +69,7 @@ export const useAuth = (): {
   const logout = () => {
     removeUser();
     removeToken();
+    delete axiosInstance.defaults.headers.common['Authorization'];
   };
 
   const login = ({ userName, userPassword }: AuthData) => {
@@ -58,21 +80,13 @@ export const useAuth = (): {
     mutateRegister({ userName, userPassword });
   };
 
-  const isAuthorized = () => {
-    if (!user || !token || (user.userId === '' && user.userName === '')) {
-      return false;
-    }
-
-    return true;
-  };
-
   return { login, register, logout, user, token, isAuthorized };
 };
 
 const loginRequest = async ({ userName, userPassword }: AuthData) => {
   const response = await axiosRequest<ResponseData>({
     method: 'post',
-    url: `/login`,
+    url: `/auth/login`,
     data: { userName, userPassword },
   });
 
@@ -82,7 +96,7 @@ const loginRequest = async ({ userName, userPassword }: AuthData) => {
 const registerRequest = async ({ userName, userPassword }: AuthData) => {
   const response = await axiosRequest<ResponseData>({
     method: 'post',
-    url: `/register`,
+    url: `/auth/register`,
     data: { userName, userPassword },
   });
 

@@ -2,7 +2,7 @@ import { ComponentPropsWithoutRef, FC } from 'react';
 import styles from './styles.module.scss';
 import LeftPageFront from './LeftPageFront';
 import LeftPageBack from './LeftPageBack';
-import { useBookContext } from '../BookProvider';
+import { useBookContext } from '../../../contexts/BookProvider';
 import PageContainer from '../PageContainer/PageContainer';
 
 type LeftPageComponentProps = ComponentPropsWithoutRef<'div'>;
